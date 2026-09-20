@@ -30,35 +30,35 @@ export class Login {
 
     if (
       !this.credentials.email ||
-      !this.credentials.password ||
-      !this.credentials.name
+      !this.credentials.password
     ) {
-      this.formError = 'All fields are required, please try again';
-      this.router.navigateByUrl('#');
-    } else {
-      this.doLogin();
+      this.formError = 'Email and password are required, please try again';
+      return;
     }
+
+    this.doLogin();
   }
 
   private doLogin(): void {
-    const newUser = {
-      name: this.credentials.name,
-      email: this.credentials.email
-    } as User;
+    const newUser = new User();
+    newUser.email = this.credentials.email;
+    newUser.name = this.credentials.name || '';
 
     this.authenticationService.login(
       newUser,
       this.credentials.password
-    );
-
-    if (this.authenticationService.isLoggedIn()) {
-      this.router.navigate(['']);
-    } else {
-      setTimeout(() => {
+    ).subscribe({
+      next: () => {
         if (this.authenticationService.isLoggedIn()) {
           this.router.navigate(['']);
+        } else {
+          this.formError = 'Login failed. Please try again.';
         }
-      }, 3000);
-    }
+      },
+      error: () => {
+        this.formError =
+          'Login failed. Please check your email and password.';
+      }
+    });
   }
 }

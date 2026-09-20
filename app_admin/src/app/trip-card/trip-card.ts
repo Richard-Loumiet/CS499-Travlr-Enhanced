@@ -25,4 +25,7 @@ export class TripCard {
   public isLoggedIn(): boolean {
     return this.authenticationService.isLoggedIn();
   }
+  public isAdmin(): boolean {
+    return this.authenticationService.isAdmin();
+  }
 }

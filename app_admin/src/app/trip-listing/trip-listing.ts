@@ -53,4 +53,7 @@ export class TripListing implements OnInit {
   public isLoggedIn(): boolean {
     return this.authenticationService.isLoggedIn();
   }
+  public isAdmin(): boolean {
+    return this.authenticationService.isAdmin();
+  }
 }

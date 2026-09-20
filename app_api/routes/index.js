@@ -53,6 +53,27 @@ function authenticateJWT(req, res, next) {
     );
 }
 
+// Method to authorize users based on their assigned role
+function authorizeRole(...allowedRoles) {
+    return (req, res, next) => {
+        // Authentication must run before authorization
+        if (!req.auth) {
+            return res
+                .status(401)
+                .json({ message: 'Authentication required' });
+        }
+
+        // Verify that the user's role is allowed to use this endpoint
+        if (!allowedRoles.includes(req.auth.role)) {
+            return res
+                .status(403)
+                .json({ message: 'Insufficient permissions' });
+        }
+
+        next();
+    };
+}
+
 // define route for register endpoint
 router
     .route('/register')
@@ -67,12 +88,20 @@ router
 router
     .route('/trips')
     .get(tripsController.tripsList)
-    .post(authenticateJWT, tripsController.tripsAddTrip);
+    .post(
+        authenticateJWT,
+        authorizeRole('admin'),
+        tripsController.tripsAddTrip
+    );
 
 // define route for a specific trip
 router
     .route('/trips/:tripCode')
     .get(tripsController.tripsFindByCode)
-    .put(authenticateJWT, tripsController.tripsUpdateTrip);
+    .put(
+        authenticateJWT,
+        authorizeRole('admin'),
+        tripsController.tripsUpdateTrip
+    );
 
 module.exports = router;

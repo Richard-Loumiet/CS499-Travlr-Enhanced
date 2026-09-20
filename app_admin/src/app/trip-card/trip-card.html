@@ -19,7 +19,7 @@
     <p class="card-text" [innerHTML]="trip.description"></p>
 
     <button
-      *ngIf="isLoggedIn()"
+      *ngIf="isAdmin()"
       type="button"
       class="btn btn-info"
       (click)="editTrip(trip)">
