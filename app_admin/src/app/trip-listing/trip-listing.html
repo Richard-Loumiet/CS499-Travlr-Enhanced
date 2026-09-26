@@ -1,17 +1,91 @@
 <div class="row">
+
+  <!-- Search, filter, and sort controls -->
   <div class="col-12 mb-3">
-    <button 
+    <div class="row g-2">
+
+      <div class="col-md-4">
+        <label for="searchTerm" class="form-label">Search Trips</label>
+        <input
+          id="searchTerm"
+          type="text"
+          class="form-control"
+          placeholder="Search by code, name, resort, or description"
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="applyFiltersAndSort()">
+      </div>
+
+      <div class="col-md-3">
+        <label for="resortFilter" class="form-label">Filter by Resort</label>
+        <select
+          id="resortFilter"
+          class="form-select"
+          [(ngModel)]="selectedResort"
+          (ngModelChange)="applyFiltersAndSort()">
+
+          <option value="">All Resorts</option>
+
+          <option
+            *ngFor="let resort of resorts"
+            [value]="resort">
+            {{ resort }}
+          </option>
+
+        </select>
+      </div>
+
+      <div class="col-md-3">
+        <label for="sortOption" class="form-label">Sort Trips</label>
+        <select
+          id="sortOption"
+          class="form-select"
+          [(ngModel)]="sortOption"
+          (ngModelChange)="applyFiltersAndSort()">
+
+          <option value="default">Default Order</option>
+          <option value="name-asc">Name: A to Z</option>
+          <option value="name-desc">Name: Z to A</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="price-high">Price: High to Low</option>
+          <option value="date-asc">Date: Earliest First</option>
+          <option value="date-desc">Date: Latest First</option>
+
+        </select>
+      </div>
+
+      <div class="col-md-2 d-flex align-items-end">
+        <button
+          type="button"
+          class="btn btn-secondary w-100"
+          (click)="clearFilters()">
+          Clear
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Result count -->
+  <div class="col-12 mb-3">
+    <p>{{ message }}</p>
+  </div>
+
+  <!-- Administrative control -->
+  <div class="col-12 mb-3">
+    <button
       *ngIf="isAdmin()"
-      (click)="addTrip()" 
+      (click)="addTrip()"
       class="btn btn-info">
       Add Trip
     </button>
   </div>
 
+  <!-- Trip results -->
   <div *ngFor="let trip of trips" class="col-md-4">
     <app-trip-card
       [trip]="trip"
       class="card-deck mt-2">
     </app-trip-card>
   </div>
+
 </div>
