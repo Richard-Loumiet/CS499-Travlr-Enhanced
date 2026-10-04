@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="col-12 mb-3">
+    <h2>My Reservations</h2>
+    <p>{{ message }}</p>
+  </div>
+
+  <div
+    *ngFor="let reservation of reservations"
+    class="col-md-6 mb-3">
+
+    <div class="card h-100">
+      <div class="card-body">
+
+        <h5 class="card-title">
+          {{ reservation.trip.name }}
+        </h5>
+
+        <p class="card-text">
+          <strong>Resort:</strong>
+          {{ reservation.trip.resort }}
+        </p>
+
+        <p class="card-text">
+          <strong>Start Date:</strong>
+          {{ reservation.trip.start | date:'mediumDate' }}
+        </p>
+
+        <p class="card-text">
+          <strong>Guests:</strong>
+          {{ reservation.guestCount }}
+        </p>
+
+        <p class="card-text">
+          <strong>Price Per Person:</strong>
+          {{ reservation.trip.perPerson }}
+        </p>
+
+        <p class="card-text">
+          <strong>Status:</strong>
+          {{ reservation.status }}
+        </p>
+
+        <p class="card-text">
+          <strong>Reserved On:</strong>
+          {{ reservation.createdAt | date:'medium' }}
+        </p>
+
+      </div>
+    </div>
+  </div>
+</div>

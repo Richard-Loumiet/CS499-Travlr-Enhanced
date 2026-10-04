@@ -13,10 +13,23 @@
     </h6>
 
     <p class="card-subtitle mt-3 mb-3 text-muted">
-      {{ trip.length }} only {{ trip.perPerson | currency:'USD':'symbol' }} per person
+      {{ trip.length }} only
+      {{ trip.perPerson | currency:'USD':'symbol' }}
+      per person
     </p>
 
-    <p class="card-text" [innerHTML]="trip.description"></p>
+    <p
+      class="card-text"
+      [innerHTML]="trip.description">
+    </p>
+
+    <button
+      *ngIf="isLoggedIn()"
+      type="button"
+      class="btn btn-success me-2"
+      (click)="reserveTrip(trip)">
+      Reserve Trip
+    </button>
 
     <button
       *ngIf="isAdmin()"

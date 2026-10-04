@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Trip } from '../models/trip';
 import { User } from '../models/user';
 import { AuthResponse } from '../models/auth-response';
+import { Reservation } from '../models/reservation';
 
 @Service()
 export class TripData {
@@ -30,6 +31,28 @@ export class TripData {
   public updateTrip(trip: Trip): Observable<Trip> {
     const url = `${this.baseUrl}/trips/${trip.code}`;
     return this.http.put<Trip>(url, trip);
+  }
+
+  public getReservations(): Observable<Reservation[]> {
+  const url = `${this.baseUrl}/reservations`;
+
+  return this.http.get<Reservation[]>(url);
+}
+  public createReservation(
+    tripCode: string,
+    guestCount: number
+  ): Observable<Reservation> {
+    const url = `${this.baseUrl}/reservations`;
+
+    const reservationData = {
+      tripCode,
+      guestCount
+    };
+
+    return this.http.post<Reservation>(
+      url,
+      reservationData
+    );
   }
 
   // Call to our /login endpoint, returns JWT

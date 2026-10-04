@@ -4,6 +4,7 @@ const router = express.Router();
 const tripsController = require('../controllers/trips');
 const authController = require('../controllers/authentication');
 const jwt = require('jsonwebtoken'); // Enable JSON Web Tokens
+const reservationsController = require('../controllers/reservations');
 
 // Method to authenticate our JWT
 function authenticateJWT(req, res, next) {
@@ -102,6 +103,18 @@ router
         authenticateJWT,
         authorizeRole('admin'),
         tripsController.tripsUpdateTrip
+    );
+
+// define route for reservations
+router
+    .route('/reservations')
+    .get(
+        authenticateJWT,
+        reservationsController.reservationsListByUser
+    )
+    .post(
+        authenticateJWT,
+        reservationsController.reservationsCreate
     );
 
 module.exports = router;

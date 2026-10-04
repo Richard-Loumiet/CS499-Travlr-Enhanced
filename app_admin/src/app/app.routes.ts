@@ -3,7 +3,9 @@ import { TripListing } from './trip-listing/trip-listing';
 import { AddTrip } from './add-trip/add-trip';
 import { EditTrip } from './edit-trip/edit-trip';
 import { Login } from './login/login';
+import { Reservations } from './reservations/reservations';
 import { adminGuard } from './guards/admin.guard';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -20,6 +22,11 @@ export const routes: Routes = [
     path: 'edit-trip',
     component: EditTrip,
     canActivate: [adminGuard]
+  },
+  {
+    path: 'reservations',
+    component: Reservations,
+    canActivate: [authGuard]
   },
   {
     path: 'login',
